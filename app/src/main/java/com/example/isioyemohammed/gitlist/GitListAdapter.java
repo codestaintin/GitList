@@ -51,9 +51,9 @@ public class GitListAdapter extends RecyclerView.Adapter<GitListAdapter.ViewHold
 
         public ViewHolder(View itemView) {
             super(itemView);
-            textViewUsername = (TextView) itemView.findViewById(R.id.textViewUsername);
-            imageView = (ImageView) itemView.findViewById(R.id.imageView);
-            textViewCompany = (TextView) itemView.findViewById(R.id.textViewCompany);
+            textViewUsername = itemView.findViewById(R.id.textViewUsername);
+            imageView = itemView.findViewById(R.id.imageView);
+            textViewCompany = itemView.findViewById(R.id.textViewCompany);
         }
 
         public void setValues(@NonNull UserList userList) {
