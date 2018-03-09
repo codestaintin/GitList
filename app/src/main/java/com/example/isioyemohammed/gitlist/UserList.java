@@ -4,11 +4,16 @@ package com.example.isioyemohammed.gitlist;
  * Created by isioyemohammed on 07/03/2018.
  */
 
-public class ListItem {
+public class UserList {
     private String username;
     private String company;
 
-    public ListItem(String username, String company) {
+    /**
+     *
+     * @param username
+     * @param company
+     */
+    public UserList(String username, String company) {
         this.username = username;
         this.company = company;
     }
