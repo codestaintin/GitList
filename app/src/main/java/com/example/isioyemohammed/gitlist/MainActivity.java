@@ -13,10 +13,10 @@ public class MainActivity extends AppCompatActivity {
     private static List<UserList> userLists = new ArrayList<>();
 
     static {
-        userLists.add(new UserList("Ademola Johnson", "Andela"));
-        userLists.add(new UserList("Issac John", "Southampton"));
-        userLists.add(new UserList("Kobe Bryant", "Man United"));
-        userLists.add(new UserList("Rajon Rondo", "Arsenal"));
+        userLists.add(new UserList("Ademola Johnson", "Andela","github.com/aday"));
+        userLists.add(new UserList("Issac John", "Southampton", "github.com/ijay"));
+        userLists.add(new UserList("Kobe Bryant", "Man United", "github.com/kobe"));
+        userLists.add(new UserList("Rajon Rondo", "Arsenal", "github.com/rray"));
     }
 
     @Override
