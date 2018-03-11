@@ -5,10 +5,11 @@
     android:id="@+id/detailsView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f2f2f2"
     tools:context="com.example.isioyemohammed.gitlist.DetailActivity">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/profile_image"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -23,9 +24,9 @@
         app:layout_constraintVertical_bias="0.084" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/username"
         android:layout_width="158dp"
-        android:layout_height="44dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="231dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -34,14 +35,14 @@
         android:textAlignment="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@+id/profile_image"
         app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/profile_image"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image"
         app:layout_constraintVertical_bias="0.108" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/gitUrl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -52,14 +53,14 @@
         android:textAlignment="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="@+id/username"
         app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/username"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image"
         app:layout_constraintVertical_bias="0.337" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/company"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
@@ -70,18 +71,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/shareButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:text="Share"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="8dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

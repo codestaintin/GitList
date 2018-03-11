@@ -1,6 +1,7 @@
 package com.example.isioyemohammed.gitlist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,7 +36,23 @@ public class GitListAdapter extends RecyclerView.Adapter<GitListAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull GitListAdapter.ViewHolder holder, int position) {
+        final String username = userLists.get(position).getUsername();
+        final String company = userLists.get(position).getCompany();
+        final String gitUrl = userLists.get(position).getGitUrl();
+
         holder.setValues(this.userLists.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent detailIntent = new Intent(v.getContext(), DetailActivity.class);
+                detailIntent.putExtra("USERNAME", username);
+                detailIntent.putExtra("COMPANY", company);
+                detailIntent.putExtra("GITURL", gitUrl);
+                v.getContext().startActivity(detailIntent);
+            }
+        });
+
+
     }
 
     @Override
@@ -48,12 +65,14 @@ public class GitListAdapter extends RecyclerView.Adapter<GitListAdapter.ViewHold
         public TextView textViewUsername;
         public ImageView imageView;
         public TextView textViewCompany;
+        public TextView textViewGitUrl;
 
         public ViewHolder(View itemView) {
             super(itemView);
             textViewUsername = itemView.findViewById(R.id.textViewUsername);
             imageView = itemView.findViewById(R.id.imageView);
             textViewCompany = itemView.findViewById(R.id.textViewCompany);
+            textViewGitUrl = itemView.findViewById(R.id.gitUrl);
         }
 
         public void setValues(@NonNull UserList userList) {
