@@ -9,11 +9,11 @@ import java.util.List;
  */
 
 public class GithubUsersResponse {
+    @SerializedName("items")
+    private List<GithubUsers> items;
 
-    @SerializedName("login")
-    private List<GithubUsers> gitUsers;
-
-    public List<GithubUsers> getGitUsers() {
-        return gitUsers;
+    public List<GithubUsers> getItems() {
+        return items;
     }
+
 }
