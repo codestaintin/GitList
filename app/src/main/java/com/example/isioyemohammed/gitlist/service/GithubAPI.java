@@ -10,6 +10,6 @@ import retrofit2.http.GET;
  */
 
 public interface GithubAPI {
-    @GET("search/users?q=language:java+location:nairobi")
+    @GET("/search/users?q=language:java+location:nairobi")
     Call<GithubUsersResponse> getItems();
 }
