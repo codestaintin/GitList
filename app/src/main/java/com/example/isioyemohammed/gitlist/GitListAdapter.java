@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.isioyemohammed.gitlist.model.GithubUsers;
+import com.example.isioyemohammed.gitlist.view.DetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
