@@ -1,4 +1,4 @@
-package com.example.isioyemohammed.gitlist;
+package com.example.isioyemohammed.gitlist.view;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
