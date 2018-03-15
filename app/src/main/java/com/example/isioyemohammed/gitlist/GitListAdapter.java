@@ -10,9 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.isioyemohammed.gitlist.model.GithubUsers;
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 /**
@@ -21,14 +18,13 @@ import java.util.List;
 
 public class GitListAdapter extends RecyclerView.Adapter<GitListAdapter.ViewHolder> {
 
-    private List<GithubUsers> userLists;
+    private List<UserList> userLists;
     private Context context;
 
-    public GitListAdapter(List<GithubUsers> userLists, Context context) {
+    public GitListAdapter(List<UserList> userLists, Context context) {
         this.userLists = userLists;
         this.context = context;
     }
-
 
     @NonNull
     @Override
@@ -40,24 +36,17 @@ public class GitListAdapter extends RecyclerView.Adapter<GitListAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull GitListAdapter.ViewHolder holder, int position) {
-        final String username = userLists.get(position).getLogin();
-        final String image = userLists.get(position).getAvatar_url();
-        final String gitUrl = userLists.get(position).getUrl();
+        final String username = userLists.get(position).getUsername();
+        final String company = userLists.get(position).getCompany();
+        final String gitUrl = userLists.get(position).getGitUrl();
 
         holder.setValues(this.userLists.get(position));
-
-        Picasso.get()
-                .load(image)
-                .placeholder(R.drawable.image_placeholder)
-                .resize(50,50)
-                .centerCrop()
-                .into(holder.imageView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent detailIntent = new Intent(v.getContext(), DetailActivity.class);
                 detailIntent.putExtra("USERNAME", username);
-                detailIntent.putExtra("IMAGE", image);
+                detailIntent.putExtra("COMPANY", company);
                 detailIntent.putExtra("GITURL", gitUrl);
                 v.getContext().startActivity(detailIntent);
             }
@@ -86,9 +75,9 @@ public class GitListAdapter extends RecyclerView.Adapter<GitListAdapter.ViewHold
             textViewGitUrl = itemView.findViewById(R.id.gitUrl);
         }
 
-        public void setValues(@NonNull GithubUsers userList) {
-            this.textViewUsername.setText(userList.getLogin());
-            this.textViewCompany.setText(userList.getUrl());
+        public void setValues(@NonNull UserList userList) {
+            this.textViewUsername.setText(userList.getUsername());
+            this.textViewCompany.setText(userList.getCompany());
         }
     }
 }
