@@ -6,16 +6,24 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.isioyemohammed.gitlist.GitListAdapter;
-import com.example.isioyemohammed.gitlist.Presenter.GithubUsersPresenter;
+import com.example.isioyemohammed.gitlist.presenter.GithubUsersPresenter;
 import com.example.isioyemohammed.gitlist.R;
 import com.example.isioyemohammed.gitlist.model.GithubUsers;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class MainActivity.
+ */
 public class MainActivity extends AppCompatActivity {
-
+    /**
+     * List - List off github users.
+     */
     private static List<GithubUsers> userLists = new ArrayList<>();
+    /**
+     * Presenter - GithubPresenter.
+     */
     private GithubUsersPresenter presenter = new GithubUsersPresenter(this);
 
 

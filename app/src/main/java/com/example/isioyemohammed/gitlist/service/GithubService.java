@@ -8,15 +8,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class GithubService {
+    /**
+     * Creates an instance of retrofit.
+     */
     private Retrofit retrofit = null;
 
+    /**
+     * Calls getAPI method in the Github API class.
+     * @return getAPI instance
+     */
     public GithubAPI getAPI() {
-        String BASE_URL = "https://api.github.com/";
+        /**
+         * BaseUrl -  for API calls
+         */
+        String baseUrl = "https://api.github.com/";
 
-        if(retrofit == null) {
+        if (retrofit == null) {
             retrofit = new Retrofit
                     .Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
