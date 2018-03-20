@@ -10,6 +10,10 @@ import retrofit2.http.GET;
  */
 
 public interface GithubAPI {
+    /**
+     * getItems method for getting JSON data from server.
+     * @return json data from API
+     */
     @GET("search/users?q=language:java+location:nairobi")
     Call<GithubUsersResponse> getItems();
 }

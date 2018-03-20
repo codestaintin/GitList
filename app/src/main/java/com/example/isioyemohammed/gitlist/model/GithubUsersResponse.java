@@ -9,9 +9,16 @@ import java.util.List;
  */
 
 public class GithubUsersResponse {
+    /**
+     * Item - Items parameter.
+     */
     @SerializedName("items")
     private List<GithubUsers> items;
 
+    /**
+     * Getter method for items.
+     * @return items
+     */
     public List<GithubUsers> getItems() {
         return items;
     }

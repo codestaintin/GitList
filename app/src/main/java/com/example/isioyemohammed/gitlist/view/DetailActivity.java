@@ -9,13 +9,32 @@ import android.widget.TextView;
 import com.example.isioyemohammed.gitlist.R;
 import com.squareup.picasso.Picasso;
 
-public class DetailActivity extends AppCompatActivity {
+/**
+ * Created by isioyemohammed on 07/03/2018.
+ */
 
+public class DetailActivity extends AppCompatActivity {
+    /**
+     * TextView - username parameter.
+     */
     TextView username;
+    /**
+     * TextView - company parameter.
+     */
     TextView company;
+    /**
+     * TextView - gitUrl parameter.
+     */
     TextView gitUrl;
+    /**
+     * ImageView - image parameter.
+     */
     ImageView image;
 
+    /**
+     * Bundle instance for saving current state.
+     * @param savedInstanceState - savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
