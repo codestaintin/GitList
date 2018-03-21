@@ -1,6 +1,5 @@
 package com.example.isioyemohammed.gitlist;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +13,7 @@ import com.example.isioyemohammed.gitlist.model.GithubUsers;
 import com.example.isioyemohammed.gitlist.view.DetailActivity;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by isioyemohammed on 07/03/2018.
@@ -24,33 +23,27 @@ public class GitListAdapter extends RecyclerView.Adapter<GitListAdapter.ViewHold
     /**
      * GithubUsers - userLists.
      */
-    private List<GithubUsers> userLists;
-    /**
-     * Context - context.
-     */
-    private Context context;
+    private ArrayList<GithubUsers> userLists;
 
     /**
      * A GitListAdapter constructor.
      * @param userLists - UserList
-     * @param context - context
      */
-    public GitListAdapter(List<GithubUsers> userLists, Context context) {
+    public GitListAdapter(ArrayList<GithubUsers> userLists) {
         this.userLists = userLists;
-        this.context = context;
     }
 
 
     @NonNull
     @Override
-    public GitListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GitListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final String username = userLists.get(position).getLogin();
         final String image = userLists.get(position).getAvatarUrl();
         final String gitUrl = userLists.get(position).getUrl();
@@ -85,7 +78,7 @@ public class GitListAdapter extends RecyclerView.Adapter<GitListAdapter.ViewHold
     /**
      * ViewHolder extends the RecyclerView.
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         /**
          * TextView - textViewUsername.
          */
@@ -94,10 +87,6 @@ public class GitListAdapter extends RecyclerView.Adapter<GitListAdapter.ViewHold
          * ImageView - imageView.
          */
         public ImageView imageView;
-        /**
-         * TextView - textViewCompany.
-         */
-        public TextView textViewCompany;
         /**
          * TextView - textViewGitUrl.
          */
@@ -111,7 +100,6 @@ public class GitListAdapter extends RecyclerView.Adapter<GitListAdapter.ViewHold
             super(itemView);
             textViewUsername = itemView.findViewById(R.id.textViewUsername);
             imageView = itemView.findViewById(R.id.imageView);
-            textViewCompany = itemView.findViewById(R.id.textViewCompany);
             textViewGitUrl = itemView.findViewById(R.id.gitUrl);
         }
 
@@ -121,7 +109,6 @@ public class GitListAdapter extends RecyclerView.Adapter<GitListAdapter.ViewHold
          */
         public void setValues(@NonNull GithubUsers userList) {
             this.textViewUsername.setText(userList.getLogin());
-            this.textViewCompany.setText(userList.getUrl());
         }
     }
 }

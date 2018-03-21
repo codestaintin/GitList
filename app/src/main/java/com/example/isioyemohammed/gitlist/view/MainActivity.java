@@ -2,7 +2,7 @@ package com.example.isioyemohammed.gitlist.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.isioyemohammed.gitlist.GitListAdapter;
@@ -11,36 +11,61 @@ import com.example.isioyemohammed.gitlist.R;
 import com.example.isioyemohammed.gitlist.model.GithubUsers;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class MainActivity.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GithubUsersPresenter.ViewUsers {
     /**
      * List - List off github users.
      */
-    private static List<GithubUsers> userLists = new ArrayList<>();
+    public ArrayList<GithubUsers> userLists;
     /**
      * Presenter - GithubPresenter.
      */
     private GithubUsersPresenter presenter = new GithubUsersPresenter(this);
+    /**
+     * Static constant variable.
+     */
+    public static final String DEVELOPER_LIST = "listKey";
 
+
+    @Override
+    public void displayGithubUsers(ArrayList<GithubUsers> developerList) {
+        userLists = developerList;
+        if (userLists != null) {
+            RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
+            mRecyclerView.setHasFixedSize(true);
+
+            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+            mRecyclerView.setLayoutManager(mLayoutManager);
+
+            RecyclerView.Adapter adapter = new GitListAdapter(userLists);
+            mRecyclerView.setAdapter(adapter);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
+        if (savedInstanceState != null) {
+            userLists = savedInstanceState.getParcelableArrayList(DEVELOPER_LIST);
+            displayGithubUsers(userLists);
+        } else {
+            presenter.getGitHubUsers();
+        }
+    }
 
-        mRecyclerView.setHasFixedSize(true);
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(DEVELOPER_LIST, userLists);
+    }
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        GitListAdapter adapter = new GitListAdapter(userLists, this);
-        mRecyclerView.setAdapter(adapter);
-
-        presenter.getGitHubUsers(mRecyclerView);
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        userLists = savedInstanceState.getParcelableArrayList(DEVELOPER_LIST);
     }
 }
