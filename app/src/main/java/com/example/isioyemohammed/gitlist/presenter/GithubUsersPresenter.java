@@ -48,6 +48,11 @@ public class GithubUsersPresenter {
          * @param developerList - method parameter
          */
         void displayGithubUsers(ArrayList<GithubUsers> developerList);
+
+        /**
+         * void method for showing progress bar.
+         */
+        void showProgressBar();
     }
 
     /**
