@@ -1,16 +1,13 @@
 package com.example.isioyemohammed.gitlist.presenter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.example.isioyemohammed.gitlist.GitListAdapter;
 import com.example.isioyemohammed.gitlist.model.GithubUsers;
 import com.example.isioyemohammed.gitlist.model.GithubUsersResponse;
 import com.example.isioyemohammed.gitlist.service.GithubService;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,24 +25,35 @@ public class GithubUsersPresenter {
     /**
      * Context - creates an instance of Context.
      */
-    Context context;
+    ViewUsers view;
 
     /**
      * Class method for provided context to the presenter.
-     * @param context - Instance of Context
+     * @param view - Instance of Context
      */
-    public GithubUsersPresenter(Context context) {
-        this.context = context;
+    public GithubUsersPresenter(ViewUsers view) {
+        this.view = view;
         if (this.githubService == null) {
             this.githubService = new GithubService();
         }
     }
 
     /**
-     * Method for getting list of users from server and populating the recyclerView.
-     * @param recyclerView - recyclerView
+     * View interface.
      */
-    public void getGitHubUsers(final RecyclerView recyclerView) {
+    public interface ViewUsers {
+        /**
+         * displayGithubUsers interface method.
+         *
+         * @param developerList - method parameter
+         */
+        void displayGithubUsers(ArrayList<GithubUsers> developerList);
+    }
+
+    /**
+     * Method for getting list of users from server and populating the recyclerView.
+     */
+    public void getGitHubUsers() {
         githubService
                 .getAPI()
                 .getItems()
@@ -53,11 +61,12 @@ public class GithubUsersPresenter {
                     @Override
                     public void onResponse(@NonNull Call<GithubUsersResponse> call,
                                            @NonNull Response<GithubUsersResponse> response) {
-                        List<GithubUsers> githubUsersResponse = response.body().getItems();
+                        GithubUsersResponse userResponse = response.body();
+                        ArrayList<GithubUsers> githubUsersResponse;
+                        assert userResponse != null;
+                        githubUsersResponse = userResponse.getItems();
                         if (githubUsersResponse != null) {
-                            GitListAdapter adapter = new GitListAdapter(githubUsersResponse,
-                                    context);
-                            recyclerView.setAdapter(adapter);
+                            view.displayGithubUsers(githubUsersResponse);
                         }
                     }
 
