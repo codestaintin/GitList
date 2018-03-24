@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements GithubUsersPresen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar = findViewById(R.id.progressBar);
 
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -95,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements GithubUsersPresen
 
     @Override
     public void showProgressBar() {
-        progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
     }
 }
