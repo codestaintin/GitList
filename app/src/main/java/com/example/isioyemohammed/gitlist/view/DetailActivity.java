@@ -86,7 +86,6 @@ public class DetailActivity extends AppCompatActivity {
 
         Picasso.get()
                 .load(intent.getExtras().getString("IMAGE"))
-                .placeholder(R.drawable.image_placeholder)
                 .into(image);
 
         username.setText(name);
