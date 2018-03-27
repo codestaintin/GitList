@@ -53,8 +53,6 @@ public class GitListAdapter extends RecyclerView.Adapter<GitListAdapter.ViewHold
         Picasso.get()
                 .load(image)
                 .placeholder(R.drawable.image_placeholder)
-                .resize(50, 50)
-                .centerCrop()
                 .into(holder.imageView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
