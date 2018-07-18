@@ -1,4 +1,4 @@
-package com.example.isioyemohammed.gitlist;
+package com.example.isioyemohammed.gitlist.adapters;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.isioyemohammed.gitlist.R;
 import com.example.isioyemohammed.gitlist.model.GithubUsers;
 import com.example.isioyemohammed.gitlist.view.DetailActivity;
 import com.squareup.picasso.Picasso;

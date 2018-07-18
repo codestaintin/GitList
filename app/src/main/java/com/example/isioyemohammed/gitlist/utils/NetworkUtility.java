@@ -9,25 +9,21 @@ import android.net.NetworkInfo;
  * Gitlist
  */
 
-public class NetworkUtility {
+public final class NetworkUtility {
     /**
-     * Context variable.
+     * Empty constructor.
      */
-    private final Context context;
-
-    /**
-     * Network Context parameter.
-     * @param context - Context
-     */
-    public NetworkUtility(Context context) {
-        this.context = context;
+    private NetworkUtility() {
+        // Needed
     }
 
     /**
      * isConnected method.
+     *
+     * @param context - Context
      * @return boolean
      */
-    public boolean isConnected() {
+    public static boolean isConnected(Context context) {
         if (context != null) {
             ConnectivityManager manager =
                     (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

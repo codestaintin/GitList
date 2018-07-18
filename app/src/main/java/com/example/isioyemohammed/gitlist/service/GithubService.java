@@ -15,6 +15,7 @@ public class GithubService {
 
     /**
      * Calls getAPI method in the Github API class.
+     *
      * @return getAPI instance
      */
     public GithubAPI getAPI() {
