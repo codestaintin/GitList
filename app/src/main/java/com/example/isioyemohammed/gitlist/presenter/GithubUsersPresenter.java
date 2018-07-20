@@ -1,88 +1,59 @@
 package com.example.isioyemohammed.gitlist.presenter;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
-
 import com.example.isioyemohammed.gitlist.model.GithubUsers;
-import com.example.isioyemohammed.gitlist.model.GithubUsersResponse;
-import com.example.isioyemohammed.gitlist.service.GithubService;
+import com.example.isioyemohammed.gitlist.model.GithubUsersInteractor;
 
 import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by isioyemohammed on 14/03/2018.
  */
 
-public class GithubUsersPresenter {
+public class GithubUsersPresenter implements GithubUsersContract.Actions,
+        GithubUsersContract.Repository.Callback {
     /**
-     * GithubService - creates an instance of GithubService.
+     * GithubUsersContract view instance.
      */
-    GithubService githubService;
+    GithubUsersContract.MainView view;
     /**
-     * Context - creates an instance of Context.
+     * GithubInteractor instance.
      */
-    ViewUsers view;
+    GithubUsersInteractor githubUsersInteractor;
 
     /**
      * Class method for provided context to the presenter.
+     *
      * @param view - Instance of Context
      */
-    public GithubUsersPresenter(ViewUsers view) {
+    public GithubUsersPresenter(GithubUsersContract.MainView view) {
+        githubUsersInteractor = new GithubUsersInteractor();
         this.view = view;
-        if (this.githubService == null) {
-            this.githubService = new GithubService();
-        }
     }
 
-    /**
-     * View interface.
-     */
-    public interface ViewUsers {
-        /**
-         * displayGithubUsers interface method.
-         *
-         * @param developerList - method parameter
-         */
-        void displayGithubUsers(ArrayList<GithubUsers> developerList);
-
-        /**
-         * void method for showing progress bar.
-         */
-        void showProgressBar();
-    }
 
     /**
      * Method for getting list of users from server and populating the recyclerView.
      */
-    public void getGitHubUsers() {
-        githubService
-                .getAPI()
-                .getItems()
-                .enqueue(new Callback<GithubUsersResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<GithubUsersResponse> call,
-                                           @NonNull Response<GithubUsersResponse> response) {
-                        GithubUsersResponse userResponse = response.body();
-                        ArrayList<GithubUsers> githubUsersResponse;
-                        assert userResponse != null;
-                        githubUsersResponse = userResponse.getItems();
-                        if (githubUsersResponse != null) {
-                            view.displayGithubUsers(githubUsersResponse);
-                        }
-                    }
+    @Override
+    public void getGitHubUsers(Boolean status) {
+        if (status) {
+            view.showProgressBar();
+        }
+        githubUsersInteractor.queryApi(this);
+    }
 
-                    @Override
-                    public void onFailure(@NonNull Call<GithubUsersResponse> call, Throwable t) {
-                        try {
-                            throw new InterruptedException("Oops!! Something went wrong!");
-                        } catch (InterruptedException e) {
-                            Log.e("ERROR", e + "An error occurred");
-                        }
-                    }
-                });
+    @Override
+    public void onFinish(ArrayList<GithubUsers> githubUsers) {
+        view.displayGithubUsers(githubUsers);
+        view.hideProgressBar();
+        view.hideSwipeRefresh();
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        view.showSnackBar("No Network connection!");
+        view.hideProgressBar();
+        view.hideSwipeRefresh();
+
     }
 }

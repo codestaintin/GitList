@@ -4,22 +4,22 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.example.isioyemohammed.gitlist.GitListAdapter;
-import com.example.isioyemohammed.gitlist.presenter.GithubUsersPresenter;
 import com.example.isioyemohammed.gitlist.R;
+import com.example.isioyemohammed.gitlist.adapters.GitListAdapter;
 import com.example.isioyemohammed.gitlist.model.GithubUsers;
+import com.example.isioyemohammed.gitlist.presenter.GithubUsersContract;
+import com.example.isioyemohammed.gitlist.presenter.GithubUsersPresenter;
 import com.example.isioyemohammed.gitlist.utils.NetworkUtility;
 
 import java.util.ArrayList;
@@ -27,40 +27,47 @@ import java.util.ArrayList;
 /**
  * Class MainActivity.
  */
-public class MainActivity extends AppCompatActivity implements GithubUsersPresenter.ViewUsers {
-    /**
-     * List - List off github users.
-     */
-    public ArrayList<GithubUsers> userLists;
-    /**
-     * Presenter - GithubPresenter.
-     */
-    private GithubUsersPresenter presenter = new GithubUsersPresenter(this);
+public class MainActivity extends AppCompatActivity implements GithubUsersContract.MainView {
     /**
      * Static constant variable.
      */
     public static final String DEVELOPER_LIST = "listKey";
     /**
+     * Hello.
+     */
+    static final String MESSAGE = "No Network connection!";
+    /**
+     * List - List off github users.
+     */
+    public ArrayList<GithubUsers> userLists;
+    /**
      * SwipeRefreshLayout variable.
      */
     SwipeRefreshLayout swipeRefreshLayout;
-    /**
-     * ProgressBar variable.
-     */
-    private ProgressBar progressBar;
     /**
      * ConstraintLayout variable.
      */
     ConstraintLayout constraintLayout;
     /**
-     * NetworkUtility variable.
+     * Presenter - GithubPresenter.
      */
-    private NetworkUtility networkUtility;
-
+    private GithubUsersPresenter presenter;
+    /**
+     * ProgressBar variable.
+     */
+    private ProgressBar progressBar;
     /**
      * BroadcastReceiver to check for internet access.
      */
     private BroadcastReceiver broadcastReceiver;
+    /**
+     * Snackbar variable.
+     */
+    private Snackbar snackbar;
+    /**
+     * Bundle variable.
+     */
+    private Bundle savedState;
 
     @Override
     public void displayGithubUsers(ArrayList<GithubUsers> developerList) {
@@ -69,7 +76,8 @@ public class MainActivity extends AppCompatActivity implements GithubUsersPresen
             RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
             mRecyclerView.setHasFixedSize(true);
 
-            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+            RecyclerView.LayoutManager mLayoutManager =
+                    new GridLayoutManager(this, 2);
             mRecyclerView.setLayoutManager(mLayoutManager);
 
             RecyclerView.Adapter adapter = new GitListAdapter(userLists);
@@ -86,46 +94,41 @@ public class MainActivity extends AppCompatActivity implements GithubUsersPresen
         progressBar = findViewById(R.id.progressBar);
         constraintLayout = findViewById(R.id.constraint_layout);
 
+        savedState = savedInstanceState;
+        presenter = new GithubUsersPresenter(this);
+
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-
-        if (networkUtility == null) {
-            networkUtility = new NetworkUtility(getApplicationContext());
-        }
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (networkUtility.isConnected()) {
-                    presenter.getGitHubUsers();
+                if (!checkNetworkStatus()) {
+                    showSnackBar(MESSAGE);
                 }
-                Log.d("MainActivity", "Broadcast reciever was callled");
+                if (userLists == null) {
+                    presenter.getGitHubUsers(true);
+                }
             }
         };
-
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
+        refresh();
+    }
+
+    /**
+     * Refresh method.
+     */
+    private void refresh() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (swipeRefreshLayout.isRefreshing() && !networkUtility.isConnected()) {
+                if (!checkNetworkStatus()) {
                     swipeRefreshLayout.setRefreshing(false);
-                    displayNetworkError();
+                    showSnackBar(MESSAGE);
                 }
-                displayGithubUsers(userLists);
-                swipeRefreshLayout.setRefreshing(false);
+                presenter.getGitHubUsers(false);
             }
         });
-        if (savedInstanceState != null) {
-            userLists = savedInstanceState.getParcelableArrayList(DEVELOPER_LIST);
-            displayGithubUsers(userLists);
-        } else {
-            if (networkUtility.isConnected()) {
-                showProgressBar();
-                presenter.getGitHubUsers();
-            } else {
-                displayNetworkError();
-            }
-        }
     }
 
     @Override
@@ -134,6 +137,25 @@ public class MainActivity extends AppCompatActivity implements GithubUsersPresen
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         registerReceiver(broadcastReceiver, intentFilter);
+        setInstanceState(savedState);
+    }
+
+    /**
+     * Set instance state method.
+     *
+     * @param savedState - savedState method parameter
+     */
+    private void setInstanceState(Bundle savedState) {
+        if (savedState != null) {
+            userLists = savedState.getParcelableArrayList(DEVELOPER_LIST);
+            displayGithubUsers(userLists);
+        } else {
+            if (checkNetworkStatus()) {
+                presenter.getGitHubUsers(true);
+            } else {
+                showSnackBar("No Network connection!");
+            }
+        }
     }
 
     @Override
@@ -144,19 +166,11 @@ public class MainActivity extends AppCompatActivity implements GithubUsersPresen
 
     /**
      * displayNetworkError method.
+     *
+     * @return NetworkUtility
      */
-    private void displayNetworkError() {
-        /**
-         * Snackbar instance.
-         */
-        Snackbar.make(constraintLayout, "No Network please try again!", Snackbar.LENGTH_LONG)
-                .setAction("RETRY", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        presenter.getGitHubUsers();
-                    }
-                })
-                .show();
+    private boolean checkNetworkStatus() {
+        return NetworkUtility.isConnected(this);
     }
 
     @Override
@@ -174,5 +188,48 @@ public class MainActivity extends AppCompatActivity implements GithubUsersPresen
     @Override
     public void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showSnackBar(String message) {
+        String networkMessage = MESSAGE;
+        String actionText = "RETRY";
+        if (!networkMessage.equalsIgnoreCase(message)) {
+            networkMessage = "Bad network connection";
+        }
+        if (userLists != null) {
+            actionText = "CLOSE";
+        }
+        snackbar = Snackbar.make(constraintLayout, networkMessage, Snackbar.LENGTH_INDEFINITE)
+                .setAction(actionText, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (userLists != null) {
+                            hideSnackBack();
+                        }
+                        presenter.getGitHubUsers(true);
+                        hideProgressBar();
+                    }
+                });
+        snackbar.show();
+    }
+
+    @Override
+    public void hideSnackBack() {
+        if (snackbar.isShown()) {
+            snackbar.dismiss();
+        }
+    }
+
+    @Override
+    public void hideSwipeRefresh() {
+        if (swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 }
