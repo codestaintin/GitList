@@ -1,4 +1,4 @@
-package com.example.isioyemohammed.gitlist.presenter;
+package com.example.isioyemohammed.gitlist.users;
 
 import com.example.isioyemohammed.gitlist.model.GithubUsers;
 import com.example.isioyemohammed.gitlist.model.GithubUsersInteractor;

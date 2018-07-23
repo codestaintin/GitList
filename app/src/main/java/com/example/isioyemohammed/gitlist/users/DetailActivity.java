@@ -1,4 +1,4 @@
-package com.example.isioyemohammed.gitlist.view;
+package com.example.isioyemohammed.gitlist.users;
 
 import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;

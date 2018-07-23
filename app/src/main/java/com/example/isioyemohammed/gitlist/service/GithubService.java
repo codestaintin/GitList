@@ -1,5 +1,7 @@
 package com.example.isioyemohammed.gitlist.service;
 
+import com.example.isioyemohammed.gitlist.model.GithubAPI;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
