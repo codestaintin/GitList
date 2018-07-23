@@ -1,4 +1,4 @@
-package com.example.isioyemohammed.gitlist.view;
+package com.example.isioyemohammed.gitlist.users;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,16 +18,14 @@ import android.widget.ProgressBar;
 import com.example.isioyemohammed.gitlist.R;
 import com.example.isioyemohammed.gitlist.adapters.GitListAdapter;
 import com.example.isioyemohammed.gitlist.model.GithubUsers;
-import com.example.isioyemohammed.gitlist.presenter.GithubUsersContract;
-import com.example.isioyemohammed.gitlist.presenter.GithubUsersPresenter;
 import com.example.isioyemohammed.gitlist.utils.NetworkUtility;
 
 import java.util.ArrayList;
 
 /**
- * Class MainActivity.
+ * Class UserActivity.
  */
-public class MainActivity extends AppCompatActivity implements GithubUsersContract.MainView {
+public class UserActivity extends AppCompatActivity implements GithubUsersContract.MainView {
     /**
      * Static constant variable.
      */
@@ -90,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements GithubUsersContra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_user);
         progressBar = findViewById(R.id.progressBar);
         constraintLayout = findViewById(R.id.constraint_layout);
 

@@ -2,7 +2,7 @@ package com.example.isioyemohammed.gitlist.model;
 
 import android.support.annotation.NonNull;
 
-import com.example.isioyemohammed.gitlist.presenter.GithubUsersContract;
+import com.example.isioyemohammed.gitlist.users.GithubUsersContract;
 import com.example.isioyemohammed.gitlist.service.GithubService;
 
 import java.util.ArrayList;

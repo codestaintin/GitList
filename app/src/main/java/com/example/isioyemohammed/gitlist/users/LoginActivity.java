@@ -1,4 +1,4 @@
-package com.example.isioyemohammed.gitlist.view;
+package com.example.isioyemohammed.gitlist.users;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.isioyemohammed.gitlist.R;
-
 
 
 /**
@@ -46,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                startActivity(new Intent(LoginActivity.this, UserActivity.class));
 
             }
         });

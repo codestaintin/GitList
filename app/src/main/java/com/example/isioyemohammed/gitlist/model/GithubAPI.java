@@ -1,4 +1,4 @@
-package com.example.isioyemohammed.gitlist.service;
+package com.example.isioyemohammed.gitlist.model;
 
 import com.example.isioyemohammed.gitlist.model.GithubUsersResponse;
 
