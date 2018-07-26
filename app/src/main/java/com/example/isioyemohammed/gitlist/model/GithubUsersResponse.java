@@ -17,6 +17,7 @@ public class GithubUsersResponse {
 
     /**
      * Getter method for items.
+     *
      * @return items
      */
     public ArrayList<GithubUsers> getItems() {
