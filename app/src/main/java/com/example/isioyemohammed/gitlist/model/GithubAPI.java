@@ -1,8 +1,6 @@
 package com.example.isioyemohammed.gitlist.model;
 
-import com.example.isioyemohammed.gitlist.model.GithubUsersResponse;
-
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 /**
@@ -12,8 +10,9 @@ import retrofit2.http.GET;
 public interface GithubAPI {
     /**
      * getItems method for getting JSON data from server.
+     *
      * @return json data from API
      */
     @GET("search/users?q=language:java+location:nairobi")
-    Call<GithubUsersResponse> getItems();
+    Observable<GithubUsersResponse> getItems();
 }

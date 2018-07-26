@@ -1,18 +1,17 @@
 package com.example.isioyemohammed.gitlist.model;
 
-import android.support.annotation.NonNull;
-
-import com.example.isioyemohammed.gitlist.users.GithubUsersContract;
 import com.example.isioyemohammed.gitlist.service.GithubService;
+import com.example.isioyemohammed.gitlist.users.GithubUsersContract;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Response;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by isioyemohammed on 18/07/2018.
- * Gitlist
+ * Created by isioyemohammed on 13/03/2018.
  */
 
 public class GithubUsersInteractor implements GithubUsersContract.Repository {
@@ -20,27 +19,38 @@ public class GithubUsersInteractor implements GithubUsersContract.Repository {
      * GithubService object.
      */
     GithubService githubService = new GithubService();
+    /**
+     * Github users.
+     */
+    private ArrayList<GithubUsers> githubUsers;
 
     @Override
     public void queryApi(final Callback callback) {
-        githubService.getAPI()
+        githubService
+                .getAPI()
                 .getItems()
-                .enqueue(new retrofit2.Callback<GithubUsersResponse>() {
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new Observer<GithubUsersResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<GithubUsersResponse> call,
-                                           @NonNull Response<GithubUsersResponse> response) {
-                        GithubUsersResponse userResponse = response.body();
-                        ArrayList<GithubUsers> githubUsersResponse;
-                        assert userResponse != null;
-                        githubUsersResponse = userResponse.getItems();
-                        if (githubUsersResponse != null) {
-                            callback.onFinish(githubUsersResponse);
-                        }
+                    public void onSubscribe(Disposable d) {
+                        // onSubscribe method
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<GithubUsersResponse> call, Throwable t) {
-                        callback.onError(t);
+                    public void onNext(GithubUsersResponse githubUsersResponse) {
+                        assert githubUsersResponse != null;
+                        githubUsers = githubUsersResponse.getItems();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        callback.onFinish(githubUsers);
                     }
                 });
     }
