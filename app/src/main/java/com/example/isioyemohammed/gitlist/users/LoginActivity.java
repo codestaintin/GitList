@@ -1,15 +1,17 @@
 package com.example.isioyemohammed.gitlist.users;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.isioyemohammed.gitlist.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 /**
@@ -22,36 +24,32 @@ public class LoginActivity extends AppCompatActivity {
      */
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    AutoCompleteTextView mEmailView;
     /**
      * Edit text view.
      */
-    private EditText mPasswordView;
+    EditText mPasswordView;
     /**
      * Progress view.
      */
-    private View mProgressView;
+    @BindView(R.id.login_progress)
+    View mProgressView;
     /**
      * Login form view.
      */
-    private View mLoginFormView;
+    @BindView(R.id.login_form)
+    View mLoginFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, UserActivity.class));
+        Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
+        mEmailSignInButton.setOnClickListener(view ->
+                startActivity(new Intent(LoginActivity.this, UserActivity.class)));
 
-            }
-        });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        ButterKnife.bind(this);
     }
 }
 

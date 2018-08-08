@@ -22,6 +22,9 @@ import com.example.isioyemohammed.gitlist.utils.NetworkUtility;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Class UserActivity.
  */
@@ -41,19 +44,22 @@ public class UserActivity extends AppCompatActivity implements GithubUsersContra
     /**
      * SwipeRefreshLayout variable.
      */
+    @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefreshLayout;
     /**
      * ConstraintLayout variable.
      */
+    @BindView(R.id.constraint_layout)
     ConstraintLayout constraintLayout;
+    /**
+     * ProgressBar variable.
+     */
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
     /**
      * Presenter - GithubPresenter.
      */
     private GithubUsersPresenter presenter;
-    /**
-     * ProgressBar variable.
-     */
-    private ProgressBar progressBar;
     /**
      * BroadcastReceiver to check for internet access.
      */
@@ -89,8 +95,8 @@ public class UserActivity extends AppCompatActivity implements GithubUsersContra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        progressBar = findViewById(R.id.progressBar);
-        constraintLayout = findViewById(R.id.constraint_layout);
+
+        ButterKnife.bind(this);
 
         savedState = savedInstanceState;
         presenter = new GithubUsersPresenter(this);
@@ -117,15 +123,12 @@ public class UserActivity extends AppCompatActivity implements GithubUsersContra
      * Refresh method.
      */
     private void refresh() {
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (!checkNetworkStatus()) {
-                    swipeRefreshLayout.setRefreshing(false);
-                    showSnackBar(MESSAGE);
-                }
-                presenter.getGitHubUsers(false);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            if (!checkNetworkStatus()) {
+                swipeRefreshLayout.setRefreshing(false);
+                showSnackBar(MESSAGE);
             }
+            presenter.getGitHubUsers(false);
         });
     }
 
@@ -204,15 +207,12 @@ public class UserActivity extends AppCompatActivity implements GithubUsersContra
             actionText = "CLOSE";
         }
         snackbar = Snackbar.make(constraintLayout, networkMessage, Snackbar.LENGTH_INDEFINITE)
-                .setAction(actionText, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (userLists != null) {
-                            hideSnackBack();
-                        }
-                        presenter.getGitHubUsers(true);
-                        hideProgressBar();
+                .setAction(actionText, view -> {
+                    if (userLists != null) {
+                        hideSnackBack();
                     }
+                    presenter.getGitHubUsers(true);
+                    hideProgressBar();
                 });
         snackbar.show();
     }

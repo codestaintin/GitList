@@ -55,15 +55,12 @@ public class GitListAdapter extends RecyclerView.Adapter<GitListAdapter.ViewHold
                 .load(image)
                 .placeholder(R.drawable.image_placeholder)
                 .into(holder.imageView);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent detailIntent = new Intent(v.getContext(), DetailActivity.class);
-                detailIntent.putExtra("USERNAME", username);
-                detailIntent.putExtra("IMAGE", image);
-                detailIntent.putExtra("GITURL", gitUrl);
-                v.getContext().startActivity(detailIntent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent detailIntent = new Intent(v.getContext(), DetailActivity.class);
+            detailIntent.putExtra("USERNAME", username);
+            detailIntent.putExtra("IMAGE", image);
+            detailIntent.putExtra("GITURL", gitUrl);
+            v.getContext().startActivity(detailIntent);
         });
 
 

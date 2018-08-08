@@ -41,6 +41,7 @@ public class GithubUsersInteractor implements GithubUsersContract.Repository {
                     public void onNext(GithubUsersResponse githubUsersResponse) {
                         assert githubUsersResponse != null;
                         githubUsers = githubUsersResponse.getItems();
+                        callback.onFinish(githubUsers);
                     }
 
                     @Override
@@ -50,7 +51,7 @@ public class GithubUsersInteractor implements GithubUsersContract.Repository {
 
                     @Override
                     public void onComplete() {
-                        callback.onFinish(githubUsers);
+                        // TODO: add toast onComplete
                     }
                 });
     }
